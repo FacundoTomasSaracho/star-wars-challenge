@@ -2,7 +2,9 @@
 
 Este repositorio contiene código para el consumo de la api de StarWars (https://www.swapi.tech/documentation) y una parte de autenticación manejado con SpringSecurity.
 
-**Consultar [SWAGGER](https://star-wars-challenge-tr6j.onrender.com/star-wars-service/v1/swagger-ui/index.html#/)**
+## Pruebas
+
+Para poder realizar pruebas, puede hacerlo mediante el [swagger](https://star-wars-challenge-tr6j.onrender.com/star-wars-service/v1/swagger-ui/index.html#/) expuesto o con [postman](./postman-collection/Star-Wars-Collection.postman_collection.json).
 
 ## Arquitectura
 

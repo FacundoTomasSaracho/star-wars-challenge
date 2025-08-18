@@ -40,7 +40,7 @@ src/
 
 ## 🚀 Endpoints disponibles
 
-**Consultar [SWAGGER](ttps://star-wars-challenge-tr6j.onrender.com/star-wars-service/v1/swagger-ui/index.html#/)**
+**Para hacer pruebas, puede hacerlas mediante el  [SWAGGER](ttps://star-wars-challenge-tr6j.onrender.com/star-wars-service/v1/swagger-ui/index.html#/) expuesto o utilizar la [COLECCIÓN](./postman-collection/Star-Wars-Collection.postman_collection.json) de postman.** 
 
 ### 🔑 POST /auth/login
 

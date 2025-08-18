@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "ed1ebdb5-2da3-428c-91fa-2738aa85456b",
+		"name": "Star-Wars-Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12956260"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": []
+		},
+		{
+			"name": "people",
+			"item": [
+				{
+					"name": "/people/find-all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1NTU1ODEyNiwiZXhwIjoxNzU1NTYxNzI2fQ.UKtG0Fy4U5z5tx5oTNozbRGFF7gMfhmL3OKa82FDnZ0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://star-wars-challenge-tr6j.onrender.com/star-wars-service/v1/people/find-all?size=10&page=1",
+							"protocol": "https",
+							"host": [
+								"star-wars-challenge-tr6j",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"star-wars-service",
+								"v1",
+								"people",
+								"find-all"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST /login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"admin123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://star-wars-challenge-tr6j.onrender.com/star-wars-service/v1/auth/login",
+					"protocol": "https",
+					"host": [
+						"star-wars-challenge-tr6j",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"star-wars-service",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

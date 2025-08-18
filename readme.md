@@ -44,7 +44,9 @@ src/
 
 ### 🔑 POST /auth/login
 
-*Genera un token JWT para autenticación de los endpoints protegidos.*
+![Como ingresar el token](image.png)
+
+*Genera un token JWT para autenticación de los endpoints protegidos. Utilizar el candado para ingresar el token*
 
 **Request:** {ip:puerto}/star-wars-service/v1/auth/login
 

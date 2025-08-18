@@ -9,6 +9,13 @@ El proyecto está compuesto por un microservicio:
 - **Star-Wars-Service**: Este microservicio se encarga de consultar y traer desde la api de StarWars los personajes relacionados con las distintas películas de la saga. Permite filtrar tanto por id como por nombre. Además, requiere de un login desarrollado con SpringSecurity (gestión simple de un JWT que no periste en memoria).
 - Idealmente, **la autenticación debería estar separada en un microservicio aparte** para una arquitectura más limpia, en donde se manejen roles de usuarios para verificar al momento de desencriptar el JWT los permisos por endpoint y exista una persistencia en memoria de usuario-password-roles.
 
+## Diseño, consideraciones técnicas y posibles cambios a futuro
+
+- **Uso de RestTemplate**: Idealmente se debería utilizar otra dependencia para las solcitudes HTTP (feign, retrofit) pero por una cuestión de tiempos decidí utilizar RestTemplate.
+- **Header authorization y swagger**: Si bien mediante el candado que ofrece la interfaz de SwaggerUI se puede enviar el header Authorization, no pude lograr que en la definición de cada operación figure el header propio para enviar el token por ese medio y que sea un poco más intuitivo. De igual manera, funciona.
+- **Operaciones restantes**: Faltarían consumir los recursos de: Films, Starships y Vehicles que por una cuestión de tiempos, no pude.
+- **SpringSecurity**: Si bien estoy acostumbrado a trabajar con distintos estándares de seguridad como JWT, OAuth2.0 etc. Nunca trabajé directamente con este framework. Siempre tuve por delante una capa de abstracción que maneja la seguridad de las apis (apigw de ibm, apigw de AWS). 
+
 ## 📁 Estructura del proyecto
 
 ```plaintext
@@ -181,15 +188,6 @@ src/
 ```
 
 *Nota:* Los parámetros Size & Page son obligatorios y no tienen un valor default.
-
-
-
-## Diseño, consideraciones técnicas y posibles cambios a futuro
-
-- **Uso de RestTemplate**: Idealmente se debería utilizar otra dependencia para las solcitudes HTTP (feign, retrofit) pero por una cuestión de tiempos decidí utilizar RestTemplate.
-- **Header authorization y swagger**: Si bien mediante el candado que ofrece la interfaz de SwaggerUI se puede enviar el header Authorization, no pude lograr que en la definición de cada operación figure el header propio para enviar el token por ese medio y que sea un poco más intuitivo. De igual manera, funciona.
-- **Operaciones restantes**: Faltarían consumir los recursos de: Films, Starships y Vehicles que por una cuestión de tiempos, no pude.
-- **SpringSecurity**: Si bien estoy acostumbrado a trabajar con distintos estándares de seguridad como JWT, OAuth2.0 etc. Nunca trabajé directamente con este framework. Siempre tuve por delante una capa de abstracción que maneja la seguridad de las apis (apigw de ibm, apigw de AWS). 
 
 ## Tecnologías utilizadas
 

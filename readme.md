@@ -31,7 +31,9 @@ src/
 
 ## 🚀 Endpoints disponibles
 
-### POST /auth/login
+**Consultar también SWAGGER**: http://{ip:puerto}/star-wars-service/v1/swagger-ui/index.html
+
+### 🔑 POST /auth/login
 
 *Genera un token JWT para autenticación de los endpoints protegidos.*
 
@@ -44,8 +46,9 @@ src/
 }
 ```
 
-```json
 **Response**:
+
+```json
 
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -54,7 +57,7 @@ src/
 
 *Nota:* Usar este token en el header Authorization: Bearer <TOKEN> para acceder a endpoints protegidos.
 
-### POST /people/find
+### 📜 POST /people/find
 
 *Permite obtener información de personajes de StarWars por id o por nombre.*
 
@@ -105,7 +108,7 @@ src/
 *Nota:* Se puede filtrar por id, por name o por ambos a la vez. Se debe enviar el header Authorization: Bearer 0YoubRdJaOvOz1..
 
 
-### POST /people/find-all
+### 📜 POST /people/find-all
 
 *Permite obtener TODOS los personajes de StarWars mediante paginación. QueryParams: Size & Page*
 

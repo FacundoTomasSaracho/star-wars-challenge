@@ -1,4 +1,4 @@
-package org.facundosaracho.starwarschallenge.security;
+package org.facundosaracho.starwarschallenge.config.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

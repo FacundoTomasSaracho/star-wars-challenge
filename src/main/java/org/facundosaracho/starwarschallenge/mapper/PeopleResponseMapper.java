@@ -1,6 +1,5 @@
 package org.facundosaracho.starwarschallenge.mapper;
 
-import org.facundosaracho.starwarschallenge.business.model.*;
 import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
 import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
 import org.facundosaracho.starwarschallenge.model.domain.Result;

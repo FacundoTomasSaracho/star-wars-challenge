@@ -1,4 +1,4 @@
-package org.facundosaracho.starwarschallenge.security;
+package org.facundosaracho.starwarschallenge.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

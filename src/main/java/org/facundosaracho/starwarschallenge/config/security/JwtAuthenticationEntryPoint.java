@@ -1,4 +1,4 @@
-package org.facundosaracho.starwarschallenge.security;
+package org.facundosaracho.starwarschallenge.config.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package org.facundosaracho.starwarschallenge.security;
+package org.facundosaracho.starwarschallenge.config.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.facundosaracho.starwarschallenge.exception.BusinessException;

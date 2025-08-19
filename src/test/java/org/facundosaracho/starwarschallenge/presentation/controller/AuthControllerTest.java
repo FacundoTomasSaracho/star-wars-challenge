@@ -1,8 +1,8 @@
 package org.facundosaracho.starwarschallenge.presentation.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.facundosaracho.starwarschallenge.security.CustomUserDetailsService;
-import org.facundosaracho.starwarschallenge.security.JwtService;
+import org.facundosaracho.starwarschallenge.config.security.CustomUserDetailsService;
+import org.facundosaracho.starwarschallenge.config.security.JwtService;
 import org.facundosaracho.starwarschallenge.model.dto.JwtResponseDto;
 import org.facundosaracho.starwarschallenge.model.dto.LoginRequestDto;
 import org.junit.jupiter.api.BeforeEach;

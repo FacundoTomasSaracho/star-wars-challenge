@@ -1,9 +1,14 @@
 package org.facundosaracho.starwarschallenge.mapper;
 
 import org.facundosaracho.starwarschallenge.business.model.*;
-import org.facundosaracho.starwarschallenge.presentation.dto.PaginatedPeopleDto;
-import org.facundosaracho.starwarschallenge.presentation.dto.PeopleDTO;
-import org.facundosaracho.starwarschallenge.presentation.dto.PersonDto;
+import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
+import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
+import org.facundosaracho.starwarschallenge.model.domain.Result;
+import org.facundosaracho.starwarschallenge.model.dto.PaginatedPeopleDto;
+import org.facundosaracho.starwarschallenge.model.dto.PeopleDTO;
+import org.facundosaracho.starwarschallenge.model.dto.PersonDto;
+import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto;
+import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -21,14 +26,14 @@ public interface PeopleResponseMapper {
 
     @Mapping(target = "results", source = ".", qualifiedByName = "singleResultToList")
     @Mapping(target = "message", source = "message")
-    PeopleResponse mapByIdResponseToPeopleResponse(SwapiPeopleByIdResponse byIdResponse);
+    PeopleResponse mapByIdResponseToPeopleResponse(SwapiPeopleByIdResponseDto byIdResponse);
 
     @Mapping(target = "results", source = "result")
     @Mapping(target = "message", source = "message")
-    PeopleResponse mapByNameResponseToPeopleResponse(SwapiPeopleByNameResponse byNameResponse);
+    PeopleResponse mapByNameResponseToPeopleResponse(SwapiPeopleByNameResponseDto byNameResponse);
 
     @Named("singleResultToList")
-    default List<Result> singleResultToList(SwapiPeopleByIdResponse response) {
+    default List<Result> singleResultToList(SwapiPeopleByIdResponseDto response) {
         if (response == null || response.getResult() == null) {
             return Collections.emptyList();
         }
@@ -170,10 +175,10 @@ public interface PeopleResponseMapper {
     }
 
     default PeopleResponse mapToPeopleResponse(Object swapiResponse) {
-        if (swapiResponse instanceof SwapiPeopleByIdResponse) {
-            return mapByIdResponseToPeopleResponse((SwapiPeopleByIdResponse) swapiResponse);
-        } else if (swapiResponse instanceof SwapiPeopleByNameResponse) {
-            return mapByNameResponseToPeopleResponse((SwapiPeopleByNameResponse) swapiResponse);
+        if (swapiResponse instanceof SwapiPeopleByIdResponseDto) {
+            return mapByIdResponseToPeopleResponse((SwapiPeopleByIdResponseDto) swapiResponse);
+        } else if (swapiResponse instanceof SwapiPeopleByNameResponseDto) {
+            return mapByNameResponseToPeopleResponse((SwapiPeopleByNameResponseDto) swapiResponse);
         } else if (swapiResponse instanceof PaginatedPeopleResponse) {
             return mapPaginatedPeopleResponseToPeopleResponse((PaginatedPeopleResponse) swapiResponse);
         }

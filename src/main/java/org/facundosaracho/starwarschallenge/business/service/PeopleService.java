@@ -1,6 +1,6 @@
 package org.facundosaracho.starwarschallenge.business.service;
 
-import org.facundosaracho.starwarschallenge.business.model.PeopleResponse;
+import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
 
 public interface PeopleService {
 

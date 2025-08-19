@@ -1,11 +1,11 @@
 package org.facundosaracho.starwarschallenge.business.service.impl;
 
-import org.facundosaracho.starwarschallenge.business.model.PaginatedPeopleResponse;
-import org.facundosaracho.starwarschallenge.business.model.PeopleResponse;
-import org.facundosaracho.starwarschallenge.business.model.SwapiPeopleByIdResponse;
-import org.facundosaracho.starwarschallenge.business.model.SwapiPeopleByNameResponse;
+import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
+import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
+import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto;
+import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
 import org.facundosaracho.starwarschallenge.exception.BusinessException;
-import org.facundosaracho.starwarschallenge.proxy.swapi.SwapiClient;
+import org.facundosaracho.starwarschallenge.client.SwapiClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.facundosaracho.starwarschallenge.exception.ErrorCode.MANDATORY_PARAMETER_IS_MISSING;
+import static org.facundosaracho.starwarschallenge.exception.dto.ErrorCodeDto.MANDATORY_PARAMETER_IS_MISSING;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -31,7 +31,7 @@ class PeopleServiceImplTest {
     void findPeopleById_ReturnsPeopleResponse() {
         // Given
         Long id = 1L;
-        SwapiPeopleByIdResponse mockResponse = new SwapiPeopleByIdResponse();
+        SwapiPeopleByIdResponseDto mockResponse = new SwapiPeopleByIdResponseDto();
         when(swapiClient.findPeopleById(id)).thenReturn(mockResponse);
 
         // When
@@ -48,7 +48,7 @@ class PeopleServiceImplTest {
     void findPeopleByName_ReturnsPeopleResponse() {
         // Given
         String name = "Luke";
-        SwapiPeopleByNameResponse mockResponse = new SwapiPeopleByNameResponse();
+        SwapiPeopleByNameResponseDto mockResponse = new SwapiPeopleByNameResponseDto();
         when(swapiClient.findPeopleByName(name)).thenReturn(mockResponse);
 
         // When

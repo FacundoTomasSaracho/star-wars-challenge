@@ -1,9 +1,9 @@
 package org.facundosaracho.starwarschallenge.presentation.controller;
 
-import org.facundosaracho.starwarschallenge.business.model.PeopleResponse;
+import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
 import org.facundosaracho.starwarschallenge.business.service.PeopleService;
-import org.facundosaracho.starwarschallenge.presentation.dto.PaginatedPeopleDto;
-import org.facundosaracho.starwarschallenge.presentation.dto.PeopleDTO;
+import org.facundosaracho.starwarschallenge.model.dto.PaginatedPeopleDto;
+import org.facundosaracho.starwarschallenge.model.dto.PeopleDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class PeopleControllerTest {
         when(peopleService.findPeopleByIdOrName(id, name)).thenReturn(mockResponse);
 
         // when
-        ResponseEntity<PeopleDTO> response = peopleController.searchPeople(id, name);
+        ResponseEntity<PeopleDTO> response = peopleController.findPeople(id, name);
 
         // then
         verify(peopleService, times(1)).findPeopleByIdOrName(id, name);

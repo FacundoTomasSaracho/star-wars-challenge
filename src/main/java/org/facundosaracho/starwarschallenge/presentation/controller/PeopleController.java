@@ -30,7 +30,7 @@ public class PeopleController implements PeopleApi {
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String name) {
 
-        log.info("Empezando búsqueda de people por id o nombre en controller /search");
+        log.info("Empezando búsqueda de people por id o nombre en controller /people/find");
         PeopleResponse responseFromService = peopleService.findPeopleByIdOrName(id, name);
         PeopleDTO dto = PeopleMapper.INSTANCE.mapPeopleResponseToPeopleDTO(responseFromService);
         log.info("Personaje/s encontrados satisfactoriamente.");
@@ -43,7 +43,7 @@ public class PeopleController implements PeopleApi {
             @RequestParam @Valid @NotBlank String size,
             @RequestParam @Valid @NotBlank String page) {
 
-        log.info("Empezando de búsqueda de people mediante paginación size: '{}', pages: '{}'", size, page);
+        log.info("Empezando de búsqueda de people mediante paginación size: '{}', pages: '{}' en /find-all", size, page);
         PeopleResponse peopleResponse = peopleService.findAllPeople(page, size);
         PaginatedPeopleDto dto = PeopleMapper.INSTANCE.mapPeopleResponseToPaginatedPeopleDto(peopleResponse);
         log.info("Personajes encontrados satisfactoriamente.");

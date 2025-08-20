@@ -21,6 +21,8 @@ import static org.facundosaracho.starwarschallenge.exception.dto.ErrorCodeDto.IN
 @Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
 
+    //todo agregar @Value
+
     private final PasswordEncoder passwordEncoder;
     private final Map<String, String> users = new HashMap<>();
 

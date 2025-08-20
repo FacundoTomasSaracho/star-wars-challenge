@@ -53,9 +53,7 @@ class AuthControllerTest {
         String password = "password123";
         String expectedToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
 
-        LoginRequestDto loginRequest = new LoginRequestDto();
-        loginRequest.setUsername(username);
-        loginRequest.setPassword(password);
+        LoginRequestDto loginRequest = new LoginRequestDto(username, password);
 
         doNothing().when(userDetailsService).validateCredentials(username, password);
         when(jwtService.generateToken(username)).thenReturn(expectedToken);
@@ -70,7 +68,7 @@ class AuthControllerTest {
         assertNotNull(response);
         assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
-        assertEquals(expectedToken, response.getBody().getToken());
+        assertEquals(expectedToken, response.getBody().token());
     }
 
     @Test
@@ -80,9 +78,8 @@ class AuthControllerTest {
         String username = "admin";
         String password = "wrongpassword";
 
-        LoginRequestDto loginRequest = new LoginRequestDto();
-        loginRequest.setUsername(username);
-        loginRequest.setPassword(password);
+        LoginRequestDto loginRequest = new LoginRequestDto(username, password);
+
 
         doThrow(new BadCredentialsException("Invalid credentials"))
                 .when(userDetailsService).validateCredentials(username, password);
@@ -100,9 +97,7 @@ class AuthControllerTest {
     @DisplayName("Caso de error - AuthController - login con username null")
     void login_NullUsername_ThrowsException() {
         // given
-        LoginRequestDto loginRequest = new LoginRequestDto();
-        loginRequest.setUsername(null);
-        loginRequest.setPassword("password123");
+        LoginRequestDto loginRequest = new LoginRequestDto(null, "password123");
 
         doThrow(new IllegalArgumentException("Username cannot be null"))
                 .when(userDetailsService).validateCredentials(null, "password123");
@@ -130,9 +125,7 @@ class AuthControllerTest {
         String password = "password123";
         String expectedToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
 
-        LoginRequestDto loginRequest = new LoginRequestDto();
-        loginRequest.setUsername(username);
-        loginRequest.setPassword(password);
+        LoginRequestDto loginRequest = new LoginRequestDto(username, password);
 
         doNothing().when(userDetailsService).validateCredentials(username, password);
         when(jwtService.generateToken(username)).thenReturn(expectedToken);
@@ -169,8 +162,7 @@ class AuthControllerTest {
     @DisplayName("Caso de error - AuthController - /auth/login con campos faltantes")
     void login_MissingFields_ReturnsBadRequest() throws Exception {
         // given - Solo username, falta password
-        LoginRequestDto incompleteRequest = new LoginRequestDto();
-        incompleteRequest.setUsername("admin");
+        LoginRequestDto incompleteRequest = new LoginRequestDto("admin", null);
 
         // when & then
         mockMvc.perform(post("/auth/login")
@@ -186,9 +178,7 @@ class AuthControllerTest {
     @DisplayName("Caso de error - AuthController - /auth/login con username vacío")
     void login_EmptyUsername_ReturnsBadRequest() throws Exception {
         // given
-        LoginRequestDto loginRequest = new LoginRequestDto();
-        loginRequest.setUsername("");
-        loginRequest.setPassword("password123");
+        LoginRequestDto loginRequest = new LoginRequestDto("", "password123");
 
         // when & then
         mockMvc.perform(post("/auth/login")
@@ -204,9 +194,7 @@ class AuthControllerTest {
     @DisplayName("Caso de error - AuthController - /auth/login con password vacío")
     void login_EmptyPassword_ReturnsBadRequest() throws Exception {
         // given
-        LoginRequestDto loginRequest = new LoginRequestDto();
-        loginRequest.setUsername("admin");
-        loginRequest.setPassword("");
+        LoginRequestDto loginRequest = new LoginRequestDto("admin", "");
 
         // when & then
         mockMvc.perform(post("/auth/login")
@@ -222,9 +210,7 @@ class AuthControllerTest {
     @DisplayName("Caso de error - AuthController - /auth/login sin Content-Type")
     void login_MissingContentType_ReturnsUnsupportedMediaType() throws Exception {
         // given
-        LoginRequestDto loginRequest = new LoginRequestDto();
-        loginRequest.setUsername("admin");
-        loginRequest.setPassword("password123");
+        LoginRequestDto loginRequest = new LoginRequestDto("admin", "password123");
 
         // when & then
         mockMvc.perform(post("/auth/login")
@@ -242,9 +228,7 @@ class AuthControllerTest {
         String username = "user@domain.com";
         String password = "P@ssw0rd!#$";
 
-        LoginRequestDto loginRequest = new LoginRequestDto();
-        loginRequest.setUsername(username);
-        loginRequest.setPassword(password);
+        LoginRequestDto loginRequest = new LoginRequestDto(username, password);
 
         String expectedToken = "token-with-special-chars";
 

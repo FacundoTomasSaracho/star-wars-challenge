@@ -12,6 +12,7 @@ public record PaginatedPeopleDto(
         PaginationInformationDto pageInformation
 ) {
 
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public record PaginationInformationDto(String message, Long totalRecords, Long totalPages, String previous,
                                            String next) {
     }

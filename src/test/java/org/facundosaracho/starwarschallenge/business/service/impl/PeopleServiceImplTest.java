@@ -1,17 +1,21 @@
 package org.facundosaracho.starwarschallenge.business.service.impl;
 
+import org.facundosaracho.starwarschallenge.client.SwapiClient;
+import org.facundosaracho.starwarschallenge.exception.BusinessException;
 import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
 import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
+import org.facundosaracho.starwarschallenge.model.domain.Properties;
+import org.facundosaracho.starwarschallenge.model.domain.Result;
 import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto;
 import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
-import org.facundosaracho.starwarschallenge.exception.BusinessException;
-import org.facundosaracho.starwarschallenge.client.SwapiClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.facundosaracho.starwarschallenge.exception.dto.ErrorCodeDto.MANDATORY_PARAMETER_IS_MISSING;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +35,9 @@ class PeopleServiceImplTest {
     void findPeopleById_ReturnsPeopleResponse() {
         // Given
         Long id = 1L;
-        SwapiPeopleByIdResponseDto mockResponse = new SwapiPeopleByIdResponseDto();
+
+        SwapiPeopleByIdResponseDto mockResponse = mockByIdDto();
+
         when(swapiClient.findPeopleById(id)).thenReturn(mockResponse);
 
         // When
@@ -39,6 +45,8 @@ class PeopleServiceImplTest {
 
         // Then
         assertNotNull(response);
+        assertEquals("ok", response.message()); // opcional, validar el message
+        assertFalse(response.results().isEmpty()); // opcional, validar contenido
         verify(swapiClient, times(1)).findPeopleById(id);
         verify(swapiClient, never()).findPeopleByName(any());
     }
@@ -48,7 +56,7 @@ class PeopleServiceImplTest {
     void findPeopleByName_ReturnsPeopleResponse() {
         // Given
         String name = "Luke";
-        SwapiPeopleByNameResponseDto mockResponse = new SwapiPeopleByNameResponseDto();
+        SwapiPeopleByNameResponseDto mockResponse = mockByNameDto(); // <- helper
         when(swapiClient.findPeopleByName(name)).thenReturn(mockResponse);
 
         // When
@@ -74,7 +82,7 @@ class PeopleServiceImplTest {
         assertEquals(MANDATORY_PARAMETER_IS_MISSING.getMessage(), exception.getMessage());
     }
 
-    //------------------------------------ FindAllPeople -------------------------------------------------------------------//
+//------------------------------------ FindAllPeople -------------------------------------------------------------------//
 
     @Test
     @DisplayName("Caso éxito - PeopleService - findAllPeople")
@@ -82,7 +90,7 @@ class PeopleServiceImplTest {
         // Given
         String page = "1";
         String size = "10";
-        PaginatedPeopleResponse mockResponse = new PaginatedPeopleResponse();
+        PaginatedPeopleResponse mockResponse = mockPaginatedResponse(); // <- helper
         when(swapiClient.findAllPeople(size, page)).thenReturn(mockResponse);
 
         // When
@@ -92,5 +100,71 @@ class PeopleServiceImplTest {
         assertNotNull(response);
         verify(swapiClient, times(1)).findAllPeople(size, page);
     }
+
+    // ---- Helpers DTOs de SWAPI (records) ----
+    private Properties lukeProperties() {
+        return new Properties(
+                "2025-01-01",     // created
+                "2025-01-02",     // edited
+                "Luke Skywalker", // name
+                "male",           // gender
+                "light",          // skin_color
+                "blond",          // hair_color
+                "172",            // height
+                "blue",           // eye_color
+                "77",             // mass
+                "Tatooine",       // homeworld
+                "19BBY",          // birth_year
+                List.of("Snowspeeder"),
+                List.of("X-wing"),
+                List.of("A New Hope"),
+                "https://swapi.dev/api/people/1/"
+        );
+    }
+
+    private Result lukeResult() {
+        return new Result(
+                lukeProperties(),
+                "abc123",                               // _id
+                "Human male Jedi Knight",               // description
+                "uid-001",                              // uid
+                1,                                      // __v
+                "https://swapi.dev/api/people/1/"       // url
+        );
+    }
+
+    private SwapiPeopleByNameResponseDto mockByNameDto() {
+        return new SwapiPeopleByNameResponseDto(
+                List.of(lukeResult()),
+                "ok"
+        );
+    }
+
+    // (si lo necesitás en otros tests por ID)
+    private SwapiPeopleByIdResponseDto mockByIdDto() {
+        return new SwapiPeopleByIdResponseDto(
+                lukeResult(),
+                "ok"
+        );
+    }
+
+    private PaginatedPeopleResponse mockPaginatedResponse() {
+        PaginatedPeopleResponse.Result r = new PaginatedPeopleResponse.Result(
+                "uid-001",
+                "Luke Skywalker",
+                "https://swapi.dev/api/people/1/"
+        );
+
+        return new PaginatedPeopleResponse(
+                // results
+                "ok",         // message
+                1L,            // total_records
+                1L,            // total_pages
+                null,         // previous
+                null,// next
+                List.of(r)
+        );
+    }
+
 
 }

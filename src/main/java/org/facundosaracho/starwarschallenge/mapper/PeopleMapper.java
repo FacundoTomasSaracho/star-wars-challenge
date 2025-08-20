@@ -3,11 +3,7 @@ package org.facundosaracho.starwarschallenge.mapper;
 import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
 import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
 import org.facundosaracho.starwarschallenge.model.domain.Result;
-import org.facundosaracho.starwarschallenge.model.dto.PaginatedPeopleDto;
-import org.facundosaracho.starwarschallenge.model.dto.PeopleDTO;
-import org.facundosaracho.starwarschallenge.model.dto.PersonDto;
-import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto;
-import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
+import org.facundosaracho.starwarschallenge.model.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -33,10 +29,10 @@ public interface PeopleMapper {
 
     @Named("singleResultToList")
     default List<Result> singleResultToList(SwapiPeopleByIdResponseDto response) {
-        if (response == null || response.getResult() == null) {
+        if (response == null || response.result() == null) {
             return Collections.emptyList();
         }
-        return List.of(response.getResult());
+        return List.of(response.result());
     }
 
     @Mapping(target = "people", source = "results")
@@ -124,11 +120,11 @@ public interface PeopleMapper {
         }
 
         return new PaginatedPeopleDto.PaginationInformationDto(
-                peopleResponse.getMessage(),
-                peopleResponse.getTotalRecords(),
-                peopleResponse.getTotalPages(),
-                peopleResponse.getPrevious(),
-                peopleResponse.getNext()
+                peopleResponse.message(),
+                peopleResponse.totalRecords(),
+                peopleResponse.totalPages(),
+                peopleResponse.previous(),
+                peopleResponse.next()
         );
     }
 

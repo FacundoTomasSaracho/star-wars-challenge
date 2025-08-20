@@ -3,16 +3,17 @@ package org.facundosaracho.starwarschallenge.client.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.facundosaracho.starwarschallenge.client.SwapiClient;
-import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
-import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
-import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto;
 import org.facundosaracho.starwarschallenge.exception.BusinessException;
 import org.facundosaracho.starwarschallenge.exception.ClientException;
+import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
+import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto;
+import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.facundosaracho.starwarschallenge.exception.dto.ErrorCodeDto.SWAPI_CLIENT_ERROR;
 import static org.facundosaracho.starwarschallenge.exception.dto.ErrorCodeDto.SWAPI_PEOPLE_NOT_FOUND;
@@ -30,7 +31,11 @@ public class SwapiClientImpl implements SwapiClient {
 
     public SwapiPeopleByIdResponseDto findPeopleById(Long id) {
 
-        String url = swapiBaseUrl + "/people/" + id + "/";
+        String url = UriComponentsBuilder.fromUriString(swapiBaseUrl)
+                .path("/people/{id}/")
+                .buildAndExpand(id)
+                .toUriString();
+
         log.info("Consultando SWAPI por ID en URL: {}", url);
 
         try {
@@ -52,7 +57,13 @@ public class SwapiClientImpl implements SwapiClient {
     @Override
     public SwapiPeopleByNameResponseDto findPeopleByName(String name) {
 
-        String url = swapiBaseUrl + "/people?name=" + name;
+        String url = UriComponentsBuilder.fromUriString(swapiBaseUrl)
+                .path("/people")
+                .queryParam("name", name)
+                .build()
+                .encode()
+                .toUriString();
+
         log.info("Consultando SWAPI por nombre en url {}", url);
 
         try {
@@ -72,7 +83,14 @@ public class SwapiClientImpl implements SwapiClient {
 
     @Override
     public PaginatedPeopleResponse findAllPeople(String size, String page) {
-        String url = swapiBaseUrl + "/people?page=" + page + "&limit=" + size;
+        String url = UriComponentsBuilder.fromUriString(swapiBaseUrl)
+                .path("/people")
+                .queryParam("page", page)
+                .queryParam("limit", size)
+                .build()
+                .encode()
+                .toUriString();
+
         log.info("Obteniendo personajes desde: {}", url);
         try {
             return restTemplate.getForObject(url, PaginatedPeopleResponse.class);

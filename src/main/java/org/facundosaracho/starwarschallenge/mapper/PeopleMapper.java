@@ -17,9 +17,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface PeopleResponseMapper {
+public interface PeopleMapper {
 
-    PeopleResponseMapper INSTANCE = Mappers.getMapper(PeopleResponseMapper.class);
+    PeopleMapper INSTANCE = Mappers.getMapper(PeopleMapper.class);
 
     // ========== MAPEOS EXISTENTES ==========
 

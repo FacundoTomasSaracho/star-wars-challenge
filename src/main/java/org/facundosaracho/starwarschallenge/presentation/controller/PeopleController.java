@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.facundosaracho.starwarschallenge.PeopleApi;
 import org.facundosaracho.starwarschallenge.business.service.PeopleService;
-import org.facundosaracho.starwarschallenge.mapper.PeopleResponseMapper;
+import org.facundosaracho.starwarschallenge.mapper.PeopleMapper;
 import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
 import org.facundosaracho.starwarschallenge.model.dto.PaginatedPeopleDto;
 import org.facundosaracho.starwarschallenge.model.dto.PeopleDTO;
@@ -32,7 +32,7 @@ public class PeopleController implements PeopleApi {
 
         log.info("Empezando búsqueda de people por id o nombre en controller /search");
         PeopleResponse responseFromService = peopleService.findPeopleByIdOrName(id, name);
-        PeopleDTO dto = PeopleResponseMapper.INSTANCE.mapPeopleResponseToPeopleDTO(responseFromService);
+        PeopleDTO dto = PeopleMapper.INSTANCE.mapPeopleResponseToPeopleDTO(responseFromService);
         log.info("Personaje/s encontrados satisfactoriamente.");
         return new ResponseEntity<>(dto, HttpStatus.OK);
 
@@ -45,7 +45,7 @@ public class PeopleController implements PeopleApi {
 
         log.info("Empezando de búsqueda de people mediante paginación size: '{}', pages: '{}'", size, page);
         PeopleResponse peopleResponse = peopleService.findAllPeople(page, size);
-        PaginatedPeopleDto dto = PeopleResponseMapper.INSTANCE.mapPeopleResponseToPaginatedPeopleDto(peopleResponse);
+        PaginatedPeopleDto dto = PeopleMapper.INSTANCE.mapPeopleResponseToPaginatedPeopleDto(peopleResponse);
         log.info("Personajes encontrados satisfactoriamente.");
         return new ResponseEntity<>(dto, HttpStatus.OK);
 

@@ -8,7 +8,7 @@ import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto
 import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
 import org.facundosaracho.starwarschallenge.business.service.PeopleService;
 import org.facundosaracho.starwarschallenge.exception.BusinessException;
-import org.facundosaracho.starwarschallenge.mapper.PeopleResponseMapper;
+import org.facundosaracho.starwarschallenge.mapper.PeopleMapper;
 import org.facundosaracho.starwarschallenge.client.SwapiClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,18 +29,18 @@ public class PeopleServiceImpl implements PeopleService {
         if (id != null) {
             log.info("Realizando búsqueda de personaje por ID: {}", id);
             SwapiPeopleByIdResponseDto swapiResponse = swapiClient.findPeopleById(id);
-            return PeopleResponseMapper.INSTANCE.mapByIdResponseToPeopleResponse(swapiResponse);
+            return PeopleMapper.INSTANCE.mapByIdResponseToPeopleResponse(swapiResponse);
         } else {
             log.info("Realizando búsqueda personaje por nombre: '{}'", name);
             SwapiPeopleByNameResponseDto swapiResponse = swapiClient.findPeopleByName(name);
-            return PeopleResponseMapper.INSTANCE.mapByNameResponseToPeopleResponse(swapiResponse);
+            return PeopleMapper.INSTANCE.mapByNameResponseToPeopleResponse(swapiResponse);
         }
     }
 
     @Override
     public PeopleResponse findAllPeople(String page, String size) {
         PaginatedPeopleResponse paginatedPeopleResponse = swapiClient.findAllPeople(size, page);
-        return PeopleResponseMapper.INSTANCE.mapPaginatedPeopleResponseToPeopleResponse(paginatedPeopleResponse);
+        return PeopleMapper.INSTANCE.mapPaginatedPeopleResponseToPeopleResponse(paginatedPeopleResponse);
     }
 
     private static void validateBothIdOrNameNotNull(Long id, String name) {

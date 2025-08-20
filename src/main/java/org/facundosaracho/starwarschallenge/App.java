@@ -1,9 +1,9 @@
-package org.facundosaracho.starwarschallenge.config;
+package org.facundosaracho.starwarschallenge;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "org.facundosaracho.starwarschallenge")
+@SpringBootApplication
 public class App {
 
     public static void main(String[] args) {

@@ -15,7 +15,7 @@ El proyecto está compuesto por un microservicio:
 
 ## Diseño, consideraciones técnicas y posibles cambios a futuro
 
-- **Uso de RestTemplate**: Idealmente se debería utilizar otra dependencia para las solcitudes HTTP (feign, retrofit) pero por una cuestión de tiempos decidí utilizar RestTemplate.
+- **Uso de RestTemplate**: Idealmente se debería utilizar otra dependencia para las solicitudes HTTP (feign, retrofit) pero por una cuestión de tiempos decidí utilizar RestTemplate.
 - **Header authorization y swagger**: Si bien mediante el candado que ofrece la interfaz de SwaggerUI se puede enviar el header Authorization, no pude lograr que en la definición de cada operación figure el header propio para enviar el token por ese medio y que sea un poco más intuitivo. De igual manera, funciona.
 - **Operaciones restantes**: Faltarían consumir los recursos de: Films, Starships y Vehicles que por una cuestión de tiempos, no pude.
 - **SpringSecurity**: Si bien estoy acostumbrado a trabajar con distintos estándares de seguridad como JWT, OAuth2.0 etc. Nunca trabajé directamente con este framework. Siempre tuve por delante una capa de abstracción que maneja la seguridad de las apis (apigw de ibm, apigw de AWS). 
@@ -31,7 +31,7 @@ src/
 │   │       ├── config/              # Swagger,Seguridad,etc.
 │   │       ├── exception/           # Clases de excepción y enum con códigos de error.
 │   │       ├── mapper/              # Mapper(mapstruct) global para mapeos automáticos de modelos,dtos.
-│   │       ├── persentation/        # Capa de presentación, controladores REST/dtos
+│   │       ├── presentation/        # Capa de presentación, controladores REST/dtos
 │   │       ├── proxy/               # Llamados HTTP -> clientes externos
 │   │       └── App.java  # Clase principal
 │   └── resources/

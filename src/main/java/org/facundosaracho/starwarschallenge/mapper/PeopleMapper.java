@@ -12,7 +12,6 @@ import org.mapstruct.factory.Mappers;
 import java.util.Collections;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
 public interface PeopleMapper {
 
     PeopleMapper INSTANCE = Mappers.getMapper(PeopleMapper.class);

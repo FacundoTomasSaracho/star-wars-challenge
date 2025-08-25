@@ -2,14 +2,14 @@ package org.facundosaracho.starwarschallenge.business.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
+import org.facundosaracho.starwarschallenge.business.service.PeopleService;
+import org.facundosaracho.starwarschallenge.config.SwapiFeignClient;
+import org.facundosaracho.starwarschallenge.exception.BusinessException;
+import org.facundosaracho.starwarschallenge.mapper.PeopleMapper;
+import org.facundosaracho.starwarschallenge.model.dto.PaginatedPeopleResponseDto;
 import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
 import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto;
 import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
-import org.facundosaracho.starwarschallenge.business.service.PeopleService;
-import org.facundosaracho.starwarschallenge.exception.BusinessException;
-import org.facundosaracho.starwarschallenge.mapper.PeopleMapper;
-import org.facundosaracho.starwarschallenge.client.SwapiClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import static org.facundosaracho.starwarschallenge.exception.dto.ErrorCodeDto.MA
 @RequiredArgsConstructor
 public class PeopleServiceImpl implements PeopleService {
 
-    private final SwapiClient swapiClient;
+    private final SwapiFeignClient swapiClient;
 
     public PeopleResponse findPeopleByIdOrName(Long id, String name) {
 
@@ -39,8 +39,8 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     public PeopleResponse findAllPeople(String page, String size) {
-        PaginatedPeopleResponse paginatedPeopleResponse = swapiClient.findAllPeople(size, page);
-        return PeopleMapper.INSTANCE.mapPaginatedPeopleResponseToPeopleResponse(paginatedPeopleResponse);
+        PaginatedPeopleResponseDto paginatedPeopleResponseDto = swapiClient.findAllPeople(Integer.parseInt(page), Integer.parseInt(size));
+        return PeopleMapper.INSTANCE.mapPaginatedPeopleResponseToPeopleResponse(paginatedPeopleResponseDto);
     }
 
     private static void validateBothIdOrNameNotNull(Long id, String name) {

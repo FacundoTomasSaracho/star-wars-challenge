@@ -1,11 +1,11 @@
 package org.facundosaracho.starwarschallenge.business.service.impl;
 
-import org.facundosaracho.starwarschallenge.client.SwapiClient;
+import org.facundosaracho.starwarschallenge.config.SwapiFeignClient;
 import org.facundosaracho.starwarschallenge.exception.BusinessException;
-import org.facundosaracho.starwarschallenge.model.domain.PaginatedPeopleResponse;
 import org.facundosaracho.starwarschallenge.model.domain.PeopleResponse;
 import org.facundosaracho.starwarschallenge.model.domain.Properties;
 import org.facundosaracho.starwarschallenge.model.domain.Result;
+import org.facundosaracho.starwarschallenge.model.dto.PaginatedPeopleResponseDto;
 import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByIdResponseDto;
 import org.facundosaracho.starwarschallenge.model.dto.SwapiPeopleByNameResponseDto;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 class PeopleServiceImplTest {
 
     @Mock
-    private SwapiClient swapiClient;
+    private SwapiFeignClient swapiClient;
 
     @InjectMocks
     private PeopleServiceImpl peopleService;
@@ -90,18 +90,17 @@ class PeopleServiceImplTest {
         // Given
         String page = "1";
         String size = "10";
-        PaginatedPeopleResponse mockResponse = mockPaginatedResponse(); // <- helper
-        when(swapiClient.findAllPeople(size, page)).thenReturn(mockResponse);
+        PaginatedPeopleResponseDto mockResponse = mockPaginatedResponse();
+        when(swapiClient.findAllPeople(Integer.parseInt(page), Integer.parseInt(size))).thenReturn(mockResponse);
 
         // When
         PeopleResponse response = peopleService.findAllPeople(page, size);
 
         // Then
         assertNotNull(response);
-        verify(swapiClient, times(1)).findAllPeople(size, page);
+        verify(swapiClient, times(1)).findAllPeople(Integer.parseInt(page), Integer.parseInt(size));
     }
 
-    // ---- Helpers DTOs de SWAPI (records) ----
     private Properties lukeProperties() {
         return new Properties(
                 "2025-01-01",     // created
@@ -134,28 +133,40 @@ class PeopleServiceImplTest {
     }
 
     private SwapiPeopleByNameResponseDto mockByNameDto() {
-        return new SwapiPeopleByNameResponseDto(
-                List.of(lukeResult()),
-                "ok"
-        );
+        return new SwapiPeopleByNameResponseDto(List.of(mockResult()), "message");
+    }
+
+    private SwapiPeopleByNameResponseDto.Result mockResult() {
+        return new SwapiPeopleByNameResponseDto.Result(mockProperties(), "asd", "asd", "asd", 1, "google.com");
+    }
+
+    private SwapiPeopleByNameResponseDto.Properties mockProperties() {
+        return new SwapiPeopleByNameResponseDto.Properties("1", "brown", "brown",
+                "brown", "male", "Name", "155", "123", "landlord",
+                "aSD", "ASd", List.of("asd"), List.of("Asd"), List.of("asd"), "www.google.com");
     }
 
     // (si lo necesitás en otros tests por ID)
     private SwapiPeopleByIdResponseDto mockByIdDto() {
-        return new SwapiPeopleByIdResponseDto(
-                lukeResult(),
-                "ok"
+        return new SwapiPeopleByIdResponseDto("ok",
+                new SwapiPeopleByIdResponseDto.PeopleResult(mockPeopleProperties(), "desc", "1", "1", 1)
         );
     }
 
-    private PaginatedPeopleResponse mockPaginatedResponse() {
-        PaginatedPeopleResponse.Result r = new PaginatedPeopleResponse.Result(
+    private SwapiPeopleByIdResponseDto.PeopleProperties mockPeopleProperties() {
+        return new SwapiPeopleByIdResponseDto.PeopleProperties("1", "brown", "brown",
+                "brown", "male", "Name", "155", "123", "landlord",
+                List.of("asd"), List.of("QAsd"), List.of("asd"), "today", "now", "www.google.com");
+    }
+
+    private PaginatedPeopleResponseDto mockPaginatedResponse() {
+        PaginatedPeopleResponseDto.Result r = new PaginatedPeopleResponseDto.Result(
                 "uid-001",
                 "Luke Skywalker",
                 "https://swapi.dev/api/people/1/"
         );
 
-        return new PaginatedPeopleResponse(
+        return new PaginatedPeopleResponseDto(
                 // results
                 "ok",         // message
                 1L,            // total_records

@@ -20,21 +20,20 @@ public class JwtService {
     @Value("${jwt.secret:mySecretKey}")
     private String secret;
 
-    // Token válido por 1 hora
     private static final long JWT_TOKEN_VALIDITY = 3600;
 
     public String getUsernameFromToken(String token) {
         try {
             return getClaimFromToken(token, Claims::getSubject);
-        } catch (BadCredentialsException |IllegalArgumentException e) {
+        } catch (BadCredentialsException | IllegalArgumentException e) {
             log.error("No se puede obtener el token JWT");
-            throw new BadCredentialsException("Token inválido", e);
+            throw new BadCredentialsException("JWT is invalid", e);
         } catch (ExpiredJwtException e) {
             log.error("Token JWT ha expirado");
-            throw new CredentialsExpiredException("Token expirado", e);
+            throw new CredentialsExpiredException("JWT Expired", e);
         } catch (SignatureException | MalformedJwtException e) {
             log.error("Firma JWT inválida");
-            throw new BadCredentialsException("Firma JWT inválida", e);
+            throw new BadCredentialsException("JWT is invalid", e);
         }
 
     }

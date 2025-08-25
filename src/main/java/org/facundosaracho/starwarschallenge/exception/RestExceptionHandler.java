@@ -1,11 +1,10 @@
 package org.facundosaracho.starwarschallenge.exception;
 
-import org.facundosaracho.starwarschallenge.exception.BusinessException;
-import org.facundosaracho.starwarschallenge.exception.ClientException;
-import org.facundosaracho.starwarschallenge.exception.RestException;
 import org.facundosaracho.starwarschallenge.exception.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,7 +57,7 @@ public class RestExceptionHandler {
                 errorMessages
         );
 
-        return new ResponseEntity<>(errorDto,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
@@ -69,6 +68,18 @@ public class RestExceptionHandler {
                 formErrorDto(HttpStatus.BAD_REQUEST.value(), message),
                 HttpStatus.BAD_REQUEST
         );
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorDto> handleException (BadCredentialsException e) {
+
+        return new ResponseEntity<>(formErrorDto(HttpStatus.UNAUTHORIZED.value(), e.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(CredentialsExpiredException.class)
+    public ResponseEntity<ErrorDto> handleException (CredentialsExpiredException e) {
+
+        return new ResponseEntity<>(formErrorDto(HttpStatus.UNAUTHORIZED.value(), e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     private <T extends RestException> ErrorDto formErrorDto(T exception) {
